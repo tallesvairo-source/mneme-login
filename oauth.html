@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mneme — login</title>
+<style>
+  body{font-family:sans-serif;background:#0B1330;color:#F5F5F5;text-align:center;padding:48px 20px}
+  a.btn{display:inline-block;background:#0A37A3;color:#fff;padding:14px 28px;border-radius:24px;text-decoration:none;font-size:18px;margin-top:12px}
+  p.s{color:#9aa3ba;font-size:14px}
+</style>
+</head>
+<body>
+<h2 id="t">Login concluído.</h2>
+<p id="m">Voltando ao Mneme…</p>
+<p><a id="go" class="btn" href="#">Abrir o Mneme</a></p>
+<p class="s">Se o Mneme não abrir sozinho, toque no botão acima.</p>
+<script>
+  // Esta página não guarda nada: apenas repassa o resultado do login (code/state) ao app.
+  var q = location.search || '';
+  var ok = /[?&](code|error)=/.test(q);
+  var intent = 'intent://login' + q + '#Intent;scheme=mneme;package=br.mneme.app;end';
+  var go = document.getElementById('go');
+  if (!ok) {
+    document.getElementById('t').textContent = 'Nada a fazer aqui.';
+    document.getElementById('m').textContent = 'Abra o Mneme e toque em "Entrar com Google".';
+    go.style.display = 'none';
+  } else {
+    if (/[?&]error=/.test(q)) document.getElementById('t').textContent = 'O login não foi concluído.';
+    go.href = intent;
+    setTimeout(function () { location.replace(intent); }, 150);
+  }
+</script>
+</body>
+</html>
